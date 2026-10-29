@@ -1,0 +1,22 @@
+# One live-camera process per [[camera]], restarted if it stops:
+#   uv run run-site site.example.toml
+# Options are live-camera's, without the dashes. 'env:NAME' reads an environment
+# variable, so camera passwords and webhook tokens stay out of this file.
+
+[defaults]
+model = "nano"
+child_recall = 0.95
+events = "logs/{camera}_alerts.jsonl"     # {camera} becomes the camera's name, made file-safe
+status = "status/{camera}.json"
+webhook = "env:ALERT_WEBHOOK"
+
+[[camera]]
+name = "Lobby"
+source = "env:LOBBY_RTSP"                 # e.g. export LOBBY_RTSP='rtsp://user:pass@10.0.0.21:554/stream1'
+zones = "zones/lobby.json"
+counts = "logs/lobby_counts.jsonl"
+
+[[camera]]
+name = "Car park"
+source = "env:CARPARK_RTSP"
+zones = "zones/car_park.json"             # e.g. a hazard zone with "alert": "Child in the car park"

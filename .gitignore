@@ -1,0 +1,24 @@
+.venv/
+.runtime/
+__pycache__/
+.DS_Store
+models/*.pt
+models/*.pb
+models/*.caffemodel
+models/*.part
+data/
+models/*.pth
+models/*.tmp
+logs/
+status/
+.env
+.ruff_cache/
+dist/
+# Footage and alert logs never go in Git: they can show or describe real people.
+*.mp4
+*.MP4
+*.mov
+*.MOV
+*.avi
+*.mkv
+*.jsonl

@@ -1,0 +1,24 @@
+# docker compose up -d --build
+# Put the site's time zone, camera addresses and webhook URL in .env (never in site.toml):
+#   TZ=Africa/Cairo                      zone "hours" are read in this time zone, not UTC
+#   LOBBY_RTSP=rtsp://user:pass@10.0.0.21:554/stream1
+#   CARPARK_RTSP=rtsp://user:pass@10.0.0.22:554/stream1
+#   ALERT_WEBHOOK=https://your-system/alerts
+# Create logs/ and status/ first (mkdir logs status): Docker would otherwise create them
+# owned by root, and the container's user (ID 1000) could not write to them.
+services:
+  cameras:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./site.toml:/app/site.toml:ro
+      - ./zones:/app/zones:ro
+      - ./logs:/app/logs
+      - ./status:/app/status
+    stop_grace_period: 30s  # time to close open alerts and save counts
+    # With an NVIDIA GPU and the NVIDIA Container Toolkit, uncomment:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices: [{driver: nvidia, count: all, capabilities: [gpu]}]

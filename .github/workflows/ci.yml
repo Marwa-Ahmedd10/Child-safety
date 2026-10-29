@@ -1,0 +1,38 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.10.8"
+      - name: OpenCV's shared libraries
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libgl1 libglib2.0-0
+      - run: uv sync --frozen
+      - run: uv run ruff check .
+      # The tests use stand-ins for the models, so no weights are downloaded.
+      - run: uv run python -m unittest -v
+
+  # The production image: built with every model in it, then started as a site would start
+  # it, offline, on a few blank frames with zones that need the child label.
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Room for PyTorch's CUDA libraries
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+      - run: docker build -t human-detection .
+      - name: Smoke test
+        run: |
+          docker run --rm --network none --entrypoint sh human-detection -c '
+            uv run --frozen --offline python -c "
+          import cv2, numpy as np
+          video = cv2.VideoWriter(\"/tmp/blank.mp4\", cv2.VideoWriter_fourcc(*\"mp4v\"), 10, (640, 480))
+          for _ in range(20):
+              video.write(np.zeros((480, 640, 3), np.uint8))
+          video.release()" &&
+            uv run --frozen --offline live-camera --source /tmp/blank.mp4 --zones zones.example.json \
+              --no-window --max-frames 10 --events /tmp/alerts.jsonl'

@@ -1,0 +1,42 @@
+[project]
+name = "human-detection"
+version = "0.1.0"
+description = "Person counting, child/adult labels, safety alerts and visitor counts for CCTV cameras."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+# Lower bounds are the versions the classifiers were validated with; uv.lock pins exact versions.
+dependencies = [
+    "numpy>=2.2",
+    # OpenCV 5 rewrote the DNN module that loads the --age face and age models.
+    "opencv-python>=4.12.0.88,<5",
+    "rfdetr>=1.11.2,<2",
+    "supervision>=0.31.2",
+    "torch>=2.14",
+    "trackers>=2.6.1,<3",
+    "transformers>=5.21,<6",
+]
+
+[project.scripts]
+live-camera = "human_detection.app.cli:main"
+run-site = "human_detection.site:main"
+download-models = "human_detection.downloads:main"
+draw-zones = "human_detection.zone_editor:main"
+footage = "human_detection.training.footage:main"
+build-child-dataset = "human_detection.training.openimages:main"
+train-child-classifier = "human_detection.training.train:main"
+
+[build-system]
+requires = ["uv_build>=0.10.8,<0.11"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.3",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+# Errors, warnings, pyflakes, import order and common bug patterns.
+select = ["E", "W", "F", "I", "B"]

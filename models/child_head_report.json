@@ -1,0 +1,81 @@
+{
+ "train_size": 1254,
+ "augmented_copies": 3,
+ "test_size": 514,
+ "backbones": {
+  "dinov2": {
+   "cv_auc": 0.9512335645551461,
+   "l2": 0.1,
+   "threshold_95_recall": -1.1492682456970211,
+   "ms_per_8_crops": 161.56763340113685,
+   "test": {
+    "auc": 0.9690229980771852,
+    "accuracy": 0.9066147859922179,
+    "recall_at_5pct_false_alarm": 0.867704280155642,
+    "recall_at_10pct_false_alarm": 0.9105058365758755,
+    "false_alarm_at_90pct_recall": 0.07782101167315175,
+    "false_alarm_at_95pct_recall": 0.17898832684824903
+   },
+   "test_at_cv_threshold": {
+    "child_recall": 0.9610894941634242,
+    "adult_false_alarm": 0.19066147859922178
+   },
+   "test_96px": {
+    "auc": 0.9636179200290693,
+    "accuracy": 0.9066147859922179,
+    "recall_at_5pct_false_alarm": 0.8560311284046692,
+    "recall_at_10pct_false_alarm": 0.9221789883268483,
+    "false_alarm_at_90pct_recall": 0.08560311284046693,
+    "false_alarm_at_95pct_recall": 0.19844357976653695
+   },
+   "test_96px_at_cv_threshold": {
+    "child_recall": 0.9571984435797666,
+    "adult_false_alarm": 0.2490272373540856
+   },
+   "test_64px": {
+    "auc": 0.9542006692001392,
+    "accuracy": 0.8949416342412452,
+    "recall_at_5pct_false_alarm": 0.8443579766536965,
+    "recall_at_10pct_false_alarm": 0.8910505836575876,
+    "false_alarm_at_90pct_recall": 0.12062256809338522,
+    "false_alarm_at_95pct_recall": 0.2607003891050584
+   },
+   "test_64px_at_cv_threshold": {
+    "child_recall": 0.9571984435797666,
+    "adult_false_alarm": 0.29571984435797666
+   },
+   "test_webcam": {
+    "auc": 0.9264939666005542,
+    "accuracy": 0.8463035019455253,
+    "recall_at_5pct_false_alarm": 0.6653696498054474,
+    "recall_at_10pct_false_alarm": 0.7937743190661478,
+    "false_alarm_at_90pct_recall": 0.22178988326848248,
+    "false_alarm_at_95pct_recall": 0.3735408560311284
+   },
+   "test_webcam_at_cv_threshold": {
+    "child_recall": 0.9221789883268483,
+    "adult_false_alarm": 0.3229571984435798
+   },
+   "test_upper_half": {
+    "auc": 0.9566988145164953,
+    "accuracy": 0.8813229571984436,
+    "recall_at_5pct_false_alarm": 0.8132295719844358,
+    "recall_at_10pct_false_alarm": 0.8910505836575876,
+    "false_alarm_at_90pct_recall": 0.10505836575875487,
+    "false_alarm_at_95pct_recall": 0.17898832684824903
+   },
+   "test_upper_half_at_cv_threshold": {
+    "child_recall": 0.9416342412451362,
+    "adult_false_alarm": 0.17120622568093385
+   }
+  }
+ },
+ "face_pipeline_test": {
+  "labelled": 0.311284046692607,
+  "no_face": 0.6517509727626459,
+  "accuracy_when_labelled": 0.71875,
+  "child_recall": 0.3035019455252918,
+  "adult_false_alarm": 0.07003891050583658
+ },
+ "chosen": "dinov2"
+}
